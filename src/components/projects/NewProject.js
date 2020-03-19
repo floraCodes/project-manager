@@ -4,7 +4,7 @@ import contextProject from "../../context/projects/contextProject";
 const NewProject = () => {
   // obtener el state del form
   const contextProjects = useContext(contextProject);
-  const { form, showForm } = contextProjects;
+  const { form, formError, addProject, showForm, showError } = contextProjects;
 
   const [project, setProject] = useState({
     name: ""
@@ -24,10 +24,17 @@ const NewProject = () => {
     e.preventDefault();
 
     //validar
+    if (!name) {
+      showError();
+      return;
+    }
 
     //update state
-
+    addProject(project);
     //restart form
+    setProject({
+      name: ""
+    });
   };
 
   const handleClick = () => {
@@ -59,6 +66,9 @@ const NewProject = () => {
             value="Add Project"
           />
         </form>
+      ) : null}
+      {formError ? (
+        <p className="mensaje error">Name of project cannot be empty</p>
       ) : null}
     </>
   );
