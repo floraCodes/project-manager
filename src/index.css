@@ -110,15 +110,15 @@ aside {
   padding: 3rem;
 }
 
-.formulario-nuevo-proyecto {
+.form-nuevo-proyecto {
   margin-top: 6rem;
 }
-.formulario-nuevo-proyecto .input-text {
+.form-nuevo-proyecto .input-text {
   border-bottom: 1px solid var(--gris2);
   border-radius: 0;
   background-color: var(--gris1);
 }
-.formulario-nuevo-proyecto .input-text::placeholder {
+.form-nuevo-proyecto .input-text::placeholder {
   color: var(--gris2);
 }
 .proyectos {
@@ -155,12 +155,12 @@ aside {
   margin-right: 2rem;
 }
 
-/** Formulario crear y editar tareas **/
-.formulario {
+/** form crear y editar tareas **/
+.form {
   background-color: var(--gris3);
   padding: 4rem;
 }
-.formulario form {
+.form form {
   max-width: 600px;
   margin: 0 auto;
 }
@@ -244,12 +244,12 @@ aside {
 .mensaje:hover {
   cursor: default;
 }
-.completo,
+.complete,
 .correcto {
   background-color: rgba(154, 252, 154, 0.3);
   color: var(--gris3);
 }
-.incompleto {
+.incomplete {
   background-color: rgba(255, 178, 178, 0.4);
   color: var(--gris3);
 }
