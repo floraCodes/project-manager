@@ -6,7 +6,9 @@ import {
   PROJECT_FORM,
   GET_PROJECTS,
   ADD_PROJECT,
-  FORM_VALIDATION
+  FORM_VALIDATION,
+  CURRENT_PROJECT,
+  DELETE_PROJECT
 } from "../../types/index";
 
 const StateProject = props => {
@@ -19,7 +21,8 @@ const StateProject = props => {
   const initialState = {
     projects: [],
     form: false,
-    formError: false
+    formError: false,
+    project: null
   };
 
   const [state, dispatch] = useReducer(reducerProject, initialState);
@@ -52,16 +55,34 @@ const StateProject = props => {
     });
   };
 
+  //selecciona el proyecto
+  const currentProject = projectId => {
+    dispatch({
+      type: CURRENT_PROJECT,
+      payload: projectId
+    });
+  };
+
+  const deleteProject = projectId => {
+    dispatch({
+      type: DELETE_PROJECT,
+      payload: projectId
+    });
+  };
+
   return (
     <contextProject.Provider
       value={{
         projects: state.projects,
         form: state.form,
         formError: state.formError,
+        project: state.project,
         addProject,
         getProjects,
         showForm,
-        showError
+        showError,
+        currentProject,
+        deleteProject
       }}
     >
       {props.children}

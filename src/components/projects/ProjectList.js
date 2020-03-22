@@ -11,7 +11,8 @@ const ProjectList = () => {
     getProjects();
   }, []);
 
-  if (projects.length === 0) return null;
+  if (projects.length === 0)
+    return <p>No projects avaliable. Create a project!</p>;
 
   return (
     <ul className="listado-proyectos">

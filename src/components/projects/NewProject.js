@@ -7,7 +7,8 @@ const NewProject = () => {
   const { form, formError, addProject, showForm, showError } = contextProjects;
 
   const [project, setProject] = useState({
-    name: ""
+    name: "",
+    id: ""
   });
 
   const { name } = project;

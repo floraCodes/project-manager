@@ -1,25 +1,33 @@
-import React from "react";
+import React, { useContext } from "react";
 import Task from "./Task";
+import contextProject from "../../context/projects/contextProject";
+import contextTask from "../../context/tasks/contextTask";
 
 const TaskList = () => {
-  const tasks = [
-    { name: "Choose Platform", status: true },
-    { name: "Choose Color Palette", status: false },
-    { name: "Choose Hosting", status: false },
-    { name: "Choose Payment Getaway", status: true }
-  ];
+  const contextProjects = useContext(contextProject);
+  const { project, deleteProject } = contextProjects;
 
+  const contextTasks = useContext(contextTask);
+  const { projectTasks } = contextTasks;
+
+  if (!project) return <h2>Select a product.</h2>;
+
+  const [currentProject] = project;
+
+  const handleClick = () => {
+    deleteProject(currentProject.id);
+  };
   return (
     <>
-      <h2>Project: Online Store</h2>
+      <h2>Project: {currentProject.name}</h2>
       <ul className="listado-tareas">
-        {!tasks.length ? (
+        {!projectTasks.length ? (
           <li>No tasks to show.</li>
         ) : (
-          tasks.map(task => <Task task={task} />)
+          projectTasks.map(task => <Task task={task} />)
         )}
       </ul>
-      <button type="button" className="btn btn-eliminar">
+      <button type="button" className="btn btn-eliminar" onClick={handleClick}>
         Delete Project &times;
       </button>
     </>
