@@ -2,7 +2,9 @@ import {
   PROJECT_TASKS,
   ADD_TASK,
   VALIDATE_TASK,
-  DELETE_TASK
+  DELETE_TASK,
+  TASK_STATUS,
+  CURRENT_TASK
 } from "../../types/index";
 
 export default (state, action) => {
@@ -17,13 +19,30 @@ export default (state, action) => {
     case ADD_TASK:
       return {
         ...state,
-        tasks: [...state.tasks, action.payload],
+        tasks: [action.payload, ...state.tasks],
         taskError: false
       };
     case VALIDATE_TASK:
       return {
         ...state,
         taskError: true
+      };
+    case DELETE_TASK:
+      return {
+        ...state,
+        tasks: state.tasks.filter(task => task.id !== action.payload)
+      };
+    case TASK_STATUS:
+      return {
+        ...state,
+        tasks: state.tasks.map(task =>
+          task.id === action.payload.id ? action.payload : task
+        )
+      };
+    case CURRENT_TASK:
+      return {
+        ...state,
+        currentTask: action.payload
       };
     default:
       return state;

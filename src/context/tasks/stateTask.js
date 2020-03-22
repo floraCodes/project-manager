@@ -5,24 +5,27 @@ import {
   PROJECT_TASKS,
   ADD_TASK,
   VALIDATE_TASK,
-  DELETE_TASK
+  DELETE_TASK,
+  TASK_STATUS,
+  CURRENT_TASK
 } from "../../types";
 
 const StateTask = props => {
   // defino state inicial, que siempre es un objecto
   const initialState = {
     tasks: [
-      { name: "Choose Platform", status: true, projectId: 1 },
-      { name: "Choose Color Palette", status: false, projectId: 2 },
-      { name: "Choose Hosting", status: false, projectId: 3 },
-      { name: "Choose Payment Getaway", status: true, projectId: 4 },
-      { name: "Choose Platform", status: true, projectId: 4 },
-      { name: "Choose Color Palette", status: false, projectId: 3 },
-      { name: "Choose Hosting", status: false, projectId: 2 },
-      { name: "Choose Payment Getaway", status: true, projectId: 1 }
+      { name: "Choose Platform", status: true, projectId: 1, id: 1 },
+      { name: "Choose Color Palette", status: false, projectId: 2, id: 2 },
+      { name: "Choose Hosting", status: false, projectId: 3, id: 3 },
+      { name: "Choose Payment Getaway", status: true, projectId: 4, id: 4 },
+      { name: "Choose Platform", status: true, projectId: 4, id: 5 },
+      { name: "Choose Color Palette", status: false, projectId: 3, id: 6 },
+      { name: "Choose Hosting", status: false, projectId: 2, id: 7 },
+      { name: "Choose Payment Getaway", status: true, projectId: 1, id: 8 }
     ],
     projectTasks: [],
-    taskError: false
+    taskError: false,
+    currentTask: null
   };
   //crear dispatch y state
   const [state, dispatch] = useReducer(ReducerTask, initialState);
@@ -54,6 +57,20 @@ const StateTask = props => {
       payload: taskId
     });
   };
+  // cambiar el estatus de la tarea
+  const changeTaskStatus = task => [
+    dispatch({
+      type: TASK_STATUS,
+      payload: task
+    })
+  ];
+  // extraer una tarea para editar
+  const setCurrentTask = task => {
+    dispatch({
+      type: CURRENT_TASK,
+      payload: task
+    });
+  };
 
   return (
     <ContextTask.Provider
@@ -61,10 +78,13 @@ const StateTask = props => {
         tasks: state.tasks,
         projectTasks: state.projectTasks,
         taskError: state.taskError,
+        currentTask: state.currentTask,
         getTasks,
         addTask,
         taskValidation,
-        deleteTask
+        deleteTask,
+        changeTaskStatus,
+        setCurrentTask
       }}
     >
       {props.children}
