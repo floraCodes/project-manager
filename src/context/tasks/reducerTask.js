@@ -1,5 +1,9 @@
-import projectContext from "../projects/contextProject";
-import { PROJECT_TASKS, ADD_TASK } from "../../types/index";
+import {
+  PROJECT_TASKS,
+  ADD_TASK,
+  VALIDATE_TASK,
+  DELETE_TASK
+} from "../../types/index";
 
 export default (state, action) => {
   switch (action.type) {
@@ -13,7 +17,13 @@ export default (state, action) => {
     case ADD_TASK:
       return {
         ...state,
-        tasks: [...state, action.payload]
+        tasks: [...state.tasks, action.payload],
+        taskError: false
+      };
+    case VALIDATE_TASK:
+      return {
+        ...state,
+        taskError: true
       };
     default:
       return state;
