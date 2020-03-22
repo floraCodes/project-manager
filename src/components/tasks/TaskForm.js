@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import contextProject from "../../context/projects/contextProject";
 import contextTask from "../../context/tasks/contextTask";
 
@@ -7,7 +7,26 @@ const TaskForm = () => {
   const { project } = contextProjects;
 
   const contextTasks = useContext(contextTask);
-  const { taskError, addTask, taskValidation, getTasks } = contextTasks;
+  const {
+    currentTask,
+    taskError,
+    addTask,
+    taskValidation,
+    getTasks,
+    updateTask,
+    cleanCurrentTask
+  } = contextTasks;
+
+  // Effect que detecta SI hay una tarea seleccionada
+  useEffect(() => {
+    if (currentTask) {
+      setTask(currentTask);
+    } else {
+      setTask({
+        name: ""
+      });
+    }
+  }, [currentTask]);
 
   //state del form
   const [task, setTask] = useState({
@@ -35,15 +54,20 @@ const TaskForm = () => {
       taskValidation();
       return;
     }
-    //pasar validacion
-    //seteamos el id del proyecto en la tarea igual al id del proyecto que el usuario clickeo
-    task.projectId = currentProject.id;
-
-    //seteamos el estado inicial como incompleto (false)
-    task.status = false;
-
-    //agregar nueva tarea al state
-    addTask(task);
+    //checkear si estan editando o agregando
+    if (!currentTask) {
+      //estan agregando una tarea nueva
+      //seteamos el id del proyecto en la tarea igual al id del proyecto que el usuario clickeo
+      task.projectId = currentProject.id;
+      //seteamos el estado inicial como incompleto (false)
+      task.status = false;
+      //agregar nueva tarea al state
+      addTask(task);
+    } else {
+      //estan actualizando la tarea
+      updateTask(task);
+      cleanCurrentTask();
+    }
 
     //obtener las tareas del proyecto actual
     getTasks(currentProject.id);
@@ -69,7 +93,7 @@ const TaskForm = () => {
           <input
             type="submit"
             className="btn btn-primario btn-block"
-            value="Add Task"
+            value={currentTask ? "Edit Task" : "Add Task"}
           />
         </div>
       </form>

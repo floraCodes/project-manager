@@ -4,7 +4,9 @@ import {
   VALIDATE_TASK,
   DELETE_TASK,
   TASK_STATUS,
-  CURRENT_TASK
+  CURRENT_TASK,
+  UPDATE_TASK,
+  CLEAN_TASK
 } from "../../types/index";
 
 export default (state, action) => {
@@ -33,6 +35,7 @@ export default (state, action) => {
         tasks: state.tasks.filter(task => task.id !== action.payload)
       };
     case TASK_STATUS:
+    case UPDATE_TASK:
       return {
         ...state,
         tasks: state.tasks.map(task =>
@@ -43,6 +46,11 @@ export default (state, action) => {
       return {
         ...state,
         currentTask: action.payload
+      };
+    case CLEAN_TASK:
+      return {
+        ...state,
+        currentTask: null
       };
     default:
       return state;
